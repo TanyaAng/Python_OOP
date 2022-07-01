@@ -19,30 +19,24 @@ class Section:
         return f"Task {new_task.details()} is added to the section"
 
     def complete_task(self, task_name):
-        searched_task=self.find_task_by_name(task_name)
+        searched_task = self.find_task_by_name(task_name)
         if not searched_task:
             return f"Could not find task with the name {task_name}"
-        searched_task.completed=True
+        searched_task.completed = True
         return f"Completed task {task_name}"
 
     def clean_section(self):
-        removed_tasks=[]
-        for t in self.tasks:
-            if t.completed:
-                removed_tasks.append(t)
+        removed_tasks = [t for t in self.tasks if t.completed]
         for t in removed_tasks:
             if t in self.tasks:
                 self.tasks.remove(t)
         return f"Cleared {len(removed_tasks)} tasks."
 
-
     def view_section(self):
         result = f'Section {self.name}:\n'
         for t in self.tasks:
-            result += t.details()+'\n'
+            result += t.details() + '\n'
         return result
-
-
 
 
 task = Task("Make bed", "27/05/2020")
