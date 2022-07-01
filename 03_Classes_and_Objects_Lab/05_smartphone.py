@@ -5,19 +5,17 @@ class Smartphone:
         self.is_on = False
 
     def install(self, app, app_memory):
-        if self.is_on:
-            if self.memory >= app_memory:
-                self.memory -= app_memory
-                self.apps.append(app)
-                return f"Installing {app}"
+        if not self.is_on:
+            return f"Turn on your phone to install {app}"
+        if self.memory<app_memory:
             return f"Not enough memory to install {app}"
-        return f"Turn on your phone to install {app}"
+        self.memory -= app_memory
+        self.apps.append(app)
+        return f"Installing {app}"
 
     def power(self):
-        if self.is_on:
-            self.is_on = False
-        else:
-            self.is_on = True
+        self.is_on = not self.is_on
+
 
     def status(self):
         return f"Total apps: {len(self.apps)}. Memory left: {self.memory}"
@@ -30,3 +28,4 @@ print(smartphone.install("Facebook", 60))
 print(smartphone.install("Messenger", 20))
 print(smartphone.install("Instagram", 40))
 print(smartphone.status())
+
