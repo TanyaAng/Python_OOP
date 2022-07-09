@@ -59,39 +59,21 @@ class Zoo:
         self.__budget += amount
 
     def animals_status(self):
-        lions = [animal for animal in self.animals if animal.__class__.__name__ == 'Lion']
-        tigers = [animal for animal in self.animals if animal.__class__.__name__ == 'Tiger']
-        cheetahs = [animal for animal in self.animals if animal.__class__.__name__ == 'Cheetah']
+        lions = [repr(animal) for animal in self.animals if animal.__class__.__name__ == 'Lion']
+        tigers = [repr(animal) for animal in self.animals if animal.__class__.__name__ == 'Tiger']
+        cheetahs = [repr(animal) for animal in self.animals if animal.__class__.__name__ == 'Cheetah']
         result = f"You have {len(self.animals)} animals\n"
-        result += f"----- {len(lions)} Lions:\n"
-        for l in lions:
-            result += repr(l) + '\n'
-        result.strip()
-        result += f"----- {len(tigers)} Tigers:\n"
-        for t in tigers:
-            result += repr(t) + '\n'
-        result.strip()
-        result += f"----- {len(cheetahs)} Cheetahs:\n"
-        for ch in cheetahs:
-            result += repr(ch) + '\n'
-        result.strip()
+        result += f'----- {len(lions)} Lions:\n' + '\n'.join(lions) + '\n'
+        result += f'----- {len(tigers)} Tigers:\n' + '\n'.join(tigers) + '\n'
+        result += f'----- {len(cheetahs)} Cheetahs:\n' + '\n'.join(cheetahs)
         return result.strip()
 
     def workers_status(self):
-        keepers = [worker for worker in self.workers if worker.__class__.__name__ == 'Keeper']
-        caretakers = [worker for worker in self.workers if worker.__class__.__name__ == 'Caretaker']
-        vets = [worker for worker in self.workers if worker.__class__.__name__ == 'Vet']
+        keepers = [repr(worker) for worker in self.workers if worker.__class__.__name__ == 'Keeper']
+        caretakers = [repr(worker) for worker in self.workers if worker.__class__.__name__ == 'Caretaker']
+        vets = [repr(worker) for worker in self.workers if worker.__class__.__name__ == 'Vet']
         result = f"You have {len(self.workers)} workers\n"
-        result += f"----- {len(keepers)} Keepers:\n"
-        for k in keepers:
-            result += repr(k) + '\n'
-        result.strip()
-        result += f"----- {len(caretakers)} Caretakers:\n"
-        for c in caretakers:
-            result += repr(c) + '\n'
-        result.strip()
-        result += f"----- {len(vets)} Vets:\n"
-        for v in vets:
-            result += repr(v) + '\n'
-        result.strip()
+        result += f"----- {len(keepers)} Keepers:\n" + "\n".join(keepers) + "\n"
+        result += f"----- {len(caretakers)} Caretakers:\n" + "\n".join(caretakers) + "\n"
+        result += f"----- {len(vets)} Vets:\n" + "\n".join(vets)
         return result.strip()
