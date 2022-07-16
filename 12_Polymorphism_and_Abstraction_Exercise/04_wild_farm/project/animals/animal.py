@@ -2,23 +2,34 @@ from abc import ABC, abstractmethod
 
 
 class Animal(ABC):
-    @abstractmethod
     def __init__(self, name, weight):
         self.name = name
         self.weight = weight
         self.food_eaten = 0
 
+    @property
+    @abstractmethod
+    def allowed_food(self):
+        return
+
+    @property
+    @abstractmethod
+    def weight_incremental(self):
+        pass
+
     @abstractmethod
     def make_sound(self):
         pass
 
-    @abstractmethod
     def feed(self, food):
-        pass
+        food_type = food.__class__.__name__
+        if food_type not in self.allowed_food:
+            return f"{self.__class__.__name__} does not eat {food_type}!"
+        self.weight += self.weight_incremental * food.quantity
+        self.food_eaten += food.quantity
 
 
 class Bird(Animal, ABC):
-    @abstractmethod
     def __init__(self, name, weight, wing_size):
         super().__init__(name, weight)
         self.wing_size = wing_size
@@ -28,7 +39,6 @@ class Bird(Animal, ABC):
 
 
 class Mammal(Animal, ABC):
-    @abstractmethod
     def __init__(self, name, weight, living_region):
         super().__init__(name, weight)
         self.living_region = living_region
