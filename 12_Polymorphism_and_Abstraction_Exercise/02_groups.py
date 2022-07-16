@@ -31,15 +31,15 @@ class Group:
     def __getitem__(self, item):
         return f"Person {item}: {self.people[item]}"
 
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.__index < len(self.people):
-            item = self.__index
-            self.__index += 1
-            return f"Person {item}: {self.people[item]}"
-        raise StopIteration
+    # def __iter__(self):
+    #     return self
+    #
+    # def __next__(self):
+    #     if self.__index < len(self.people):
+    #         item = self.__index
+    #         self.__index += 1
+    #         return f"Person {item}: {self.people[item]}"
+    #     raise StopIteration
 
 
 p0 = Person('Aliko', 'Dangote')
