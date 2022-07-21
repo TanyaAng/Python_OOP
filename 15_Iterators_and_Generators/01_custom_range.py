@@ -1,10 +1,10 @@
 class custom_range_iterator:
     def __init__(self, cr):
-        self.next_value = cr.start
-        self.end = cr.end
+        self.cr = cr
+        self.next_value = self.cr.start
 
     def __next__(self):
-        if self.next_value > self.end:
+        if self.next_value > self.cr.end:
             raise StopIteration
 
         value_to_return = self.next_value
