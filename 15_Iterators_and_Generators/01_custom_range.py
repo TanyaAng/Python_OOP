@@ -22,6 +22,18 @@ class custom_range:
         return custom_range_iterator(self)
 
 
-one_to_ten = custom_range(1, 10)
+class custom_range_with_generator:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    def __iter__(self):
+        value = self.start
+        while value < self.end:
+            yield value
+            value += 1
+
+
+one_to_ten = custom_range_with_generator(3, 10)
 for num in one_to_ten:
     print(num)
