@@ -81,6 +81,5 @@ work_manager.manage()
 try:
     break_manager.set_worker(Robot())
     break_manager.lunch_break()
-except:
-    pass
-
+except Exception as error:
+    print(error)
