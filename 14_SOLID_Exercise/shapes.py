@@ -1,3 +1,5 @@
+# Open/ Closed principle
+
 from abc import ABC, abstractmethod
 
 

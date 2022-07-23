@@ -1,3 +1,5 @@
+# DIP - dependency inversion principle
+
 from abc import ABC, abstractmethod
 
 

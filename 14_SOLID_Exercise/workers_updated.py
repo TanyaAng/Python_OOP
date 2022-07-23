@@ -1,3 +1,5 @@
+# ISP - Interface segreration principle
+
 from abc import ABC, abstractmethod
 import time
 
