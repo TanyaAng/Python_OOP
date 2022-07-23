@@ -11,18 +11,16 @@ class sequence_repeat:
     def __next__(self):
         if self.counter >= self.number:
             raise StopIteration
-        if self.idx >= len(self.sequence):
-            self.idx = 0
-        value = self.sequence[self.idx]
+        value = self.sequence[self.idx % len(self.sequence)]
         self.idx += 1
         self.counter += 1
         return value
 
 
-result = sequence_repeat('abc', 5)
-for item in result:
-    print(item, end='')
-
-# result = sequence_repeat('I Love Python', 3)
+# result = sequence_repeat('abc', 5)
 # for item in result:
 #     print(item, end='')
+
+result = sequence_repeat('I Love Python', 3)
+for item in result:
+    print(item, end='')
