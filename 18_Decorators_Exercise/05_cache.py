@@ -2,13 +2,16 @@ from functools import wraps
 
 
 def cache(func):
-
+    memo = {}
 
     @wraps(func)
     def wrapper(n):
-        wrapper.log[n] = func(n)
-        return wrapper.log[n]
-    wrapper.log = {}
+        if n in memo:
+            return memo[n]
+        result = func(n)
+        memo[n]=result
+        return result
+    wrapper.log=memo
     return wrapper
 
 
@@ -21,5 +24,5 @@ def fibonacci(n):
     return fibonacci(n - 1) + fibonacci(n - 2)
 
 
-fibonacci(3)
+print(fibonacci(12))
 print(fibonacci.log)
