@@ -24,6 +24,11 @@ class SpaceStation:
         elif astronaut_type == 'Meteorologist':
             return Meteorologist(name)
 
+    def make_instance_of_planet(self, name, items):
+        planet = Planet(name)
+        planet.items = items.split(', ')
+        self.planet_repository.add(planet)
+
     def find_suitable_astronauts(self):
         suitable_astronauts = []
         for a in sorted(self.astronaut_repository.astronauts, key=lambda x: x.oxygen, reverse=True):
@@ -66,8 +71,7 @@ class SpaceStation:
     def add_planet(self, name, items):
         if self.planet_repository.find_by_name(name):
             return f"{name} is already added."
-        planet = Planet(name, items)
-        self.planet_repository.add(planet)
+        self.make_instance_of_planet(name, items)
         return f"Successfully added Planet: {name}."
 
     def retire_astronaut(self, name):
@@ -94,6 +98,7 @@ class SpaceStation:
         collected_items = self.collect_items(suitable_astronauts, items)
 
         if self.is_mission_successful(collected_items, items):
+            self.planet_repository.remove(planet_to_explore)
             return f"Planet: {planet_name} was explored. {len(suitable_astronauts)} astronauts participated in collecting items."
         return f"Mission is not completed."
 

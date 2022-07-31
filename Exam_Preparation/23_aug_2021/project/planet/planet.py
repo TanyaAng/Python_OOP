@@ -1,7 +1,7 @@
 class Planet:
-    def __init__(self, name, items=[]):
+    def __init__(self, name):
         self.name = name
-        self.items = items.split(', ') if items != [] else []
+        self.items = []
 
     @property
     def name(self):
@@ -14,7 +14,3 @@ class Planet:
         self.__name = value
 
 
-planet = Planet("Earth", "stone, water")
-print(planet.__dict__)
-planet2 = Planet("Mars")
-print(planet2.__dict__)
