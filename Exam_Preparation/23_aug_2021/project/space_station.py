@@ -35,8 +35,8 @@ class SpaceStation:
             return suitable_astronauts
         return None
 
-    def is_mission_successful(self, collected_items, total_items_on_planet):
-        if collected_items == total_items_on_planet:
+    def is_mission_successful(self, collected_items, items):
+        if collected_items == len(items):
             self.successful_missions += 1
             return True
         self.unsuccessful_missions += 1
@@ -44,12 +44,12 @@ class SpaceStation:
 
     def collect_items(self, astronauts, items_on_planet):
         collected_items = 0
-        for astronaut in sorted(astronauts, key=lambda a: a.oxygen, reverse=True):
+        for astronaut in astronauts:
             while items_on_planet:
                 current_item = items_on_planet.pop()
+                astronaut.breathe()
                 astronaut.backpack.append(current_item)
                 collected_items += 1
-                astronaut.breathe()
                 if astronaut.oxygen < astronaut.OXYGEN_DECREASE:
                     break
         return collected_items
@@ -85,16 +85,15 @@ class SpaceStation:
         if not self.planet_repository.find_by_name(planet_name):
             raise Exception("Invalid planet name!")
         suitable_astronauts = self.find_suitable_astronauts()
-        if not suitable_astronauts:
+        if suitable_astronauts is None:
             raise Exception("You need at least one astronaut to explore the planet!")
 
         planet_to_explore = self.planet_repository.find_by_name(planet_name)
-
         items = planet_to_explore.items
-        total_items_on_planet = len(items)
+
         collected_items = self.collect_items(suitable_astronauts, items)
 
-        if self.is_mission_successful(collected_items, total_items_on_planet):
+        if self.is_mission_successful(collected_items, items):
             return f"Planet: {planet_name} was explored. {len(suitable_astronauts)} astronauts participated in collecting items."
         return f"Mission is not completed."
 
