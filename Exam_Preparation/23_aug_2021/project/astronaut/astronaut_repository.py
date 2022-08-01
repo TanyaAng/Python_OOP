@@ -15,5 +15,4 @@ class AstronautRepository:
     def find_by_name(self, name):
         searched = [a for a in self.astronauts if a.name == name]
         if searched:
-            return True
-        return False
+            return searched[0]

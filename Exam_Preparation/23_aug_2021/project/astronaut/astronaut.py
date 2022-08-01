@@ -27,6 +27,7 @@ class Astronaut(ABC):
         pass
 
     def __str__(self):
-        if self.backpack:
+        if self.backpack!=[]:
             return f"Name: {self.name}\nOxygen: {self.oxygen}\nBackpack items: {', '.join(self.backpack)}"
         return f'Name: {self.name}\nOxygen: {self.oxygen}\nBackpack items: none'
+

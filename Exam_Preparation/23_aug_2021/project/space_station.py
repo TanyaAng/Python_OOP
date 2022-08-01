@@ -24,10 +24,11 @@ class SpaceStation:
         elif astronaut_type == 'Meteorologist':
             return Meteorologist(name)
 
-    def make_instance_of_planet(self, name, items):
+    @staticmethod
+    def make_instance_of_planet(name, items):
         planet = Planet(name)
         planet.items = items.split(', ')
-        self.planet_repository.add(planet)
+        return planet
 
     def find_suitable_astronauts(self):
         suitable_astronauts = []
@@ -35,49 +36,42 @@ class SpaceStation:
             if a.oxygen > 30:
                 suitable_astronauts.append(a)
         if suitable_astronauts:
-            if len(suitable_astronauts) > 5:
-                suitable_astronauts = suitable_astronauts[0:5]
-            return suitable_astronauts
+            return suitable_astronauts[0:5]
         return None
 
-    def is_mission_successful(self, collected_items, items):
-        if collected_items == len(items):
-            self.successful_missions += 1
-            return True
-        self.unsuccessful_missions += 1
-        return False
-
     def collect_items(self, astronauts, items_on_planet):
-        collected_items = 0
+        astronauts_on_mission = []
         for astronaut in astronauts:
             while items_on_planet:
+                if astronaut.oxygen <= 0:
+                    break
                 current_item = items_on_planet.pop()
                 astronaut.breathe()
                 astronaut.backpack.append(current_item)
-                collected_items += 1
-                if astronaut.oxygen < astronaut.OXYGEN_DECREASE:
-                    break
-        return collected_items
+                if astronaut not in astronauts_on_mission:
+                    astronauts_on_mission.append(astronaut)
+        return astronauts_on_mission
 
     def add_astronaut(self, astronaut_type, name):
-        if self.astronaut_repository.find_by_name(name):
-            return f"{name} is already added."
         if astronaut_type not in self.VALID_ASTRONAUTS_TYPE:
             raise Exception("Astronaut type is not valid!")
+        if self.astronaut_repository.find_by_name(name):
+            return f"{name} is already added."
         astronaut = self.make_instance_of_astronaut(astronaut_type, name)
         self.astronaut_repository.add(astronaut)
-        return f"Successfully added {astronaut_type}: {name}"
+        return f"Successfully added {astronaut_type}: {name}."
 
     def add_planet(self, name, items):
         if self.planet_repository.find_by_name(name):
             return f"{name} is already added."
-        self.make_instance_of_planet(name, items)
+        planet = self.make_instance_of_planet(name, items)
+        self.planet_repository.add(planet)
         return f"Successfully added Planet: {name}."
 
     def retire_astronaut(self, name):
-        if not self.astronaut_repository.find_by_name(name):
+        astronaut = self.astronaut_repository.find_by_name(name)
+        if astronaut is None:
             raise Exception(f"Astronaut {name} doesn't exist!")
-        astronaut = [a for a in self.astronaut_repository.astronauts if a.name == name][0]
         self.astronaut_repository.remove(astronaut)
         return f"Astronaut {name} was retired!"
 
@@ -89,23 +83,39 @@ class SpaceStation:
         if not self.planet_repository.find_by_name(planet_name):
             raise Exception("Invalid planet name!")
         suitable_astronauts = self.find_suitable_astronauts()
-        if suitable_astronauts is None:
+        if not suitable_astronauts:
             raise Exception("You need at least one astronaut to explore the planet!")
 
         planet_to_explore = self.planet_repository.find_by_name(planet_name)
         items = planet_to_explore.items
 
-        collected_items = self.collect_items(suitable_astronauts, items)
+        astronauts_on_mission = self.collect_items(suitable_astronauts, items)
 
-        if self.is_mission_successful(collected_items, items):
-            self.planet_repository.remove(planet_to_explore)
-            return f"Planet: {planet_name} was explored. {len(suitable_astronauts)} astronauts participated in collecting items."
+        if not items and astronauts_on_mission:
+            self.successful_missions += 1
+            return f"Planet: {planet_name} was explored. {len(astronauts_on_mission)} astronauts participated in collecting items."
+        self.unsuccessful_missions += 1
         return f"Mission is not completed."
 
     def report(self):
-        result = f"{self.successful_missions} successful missions!"
-        result += f"{self.unsuccessful_missions} missions were not completed!"
+        result = f"{self.successful_missions} successful missions!\n"
+        result += f"{self.unsuccessful_missions} missions were not completed!\n"
         result += f"Astronauts' info:\n"
         for a in self.astronaut_repository.astronauts:
             result += str(a) + '\n'
         return result.strip()
+
+# station = SpaceStation()
+#
+# station.add_astronaut('Biologist', 'Pesho')
+# station.add_astronaut('Geodesist', 'Gosho')
+# station.add_astronaut('Meteorologist', 'Stamat')
+# print(station.report())
+#
+# for _ in range(3):
+#     for a in station.astronaut_repository.astronauts:
+#         a.breathe()
+#
+# print(station.report())
+# print(station.find_suitable_astronauts())
+# print(station.add_astronaut('Biologist', 'Gosho'))
