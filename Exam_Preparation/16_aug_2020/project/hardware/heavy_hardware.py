@@ -11,3 +11,4 @@ class HeavyHardware(Hardware):
         capacity=self.CAPACITY_COEFF*capacity
         memory=floor(self.MEMORY_COEFF*memory)
         super().__init__(name, self.TYPE, capacity,memory)
+#

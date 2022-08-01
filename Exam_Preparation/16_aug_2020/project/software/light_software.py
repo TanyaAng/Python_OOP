@@ -1,5 +1,7 @@
-from project.system import Software
-from math import floor, ceil
+from project.software.software import Software
+from math import floor
+
+
 
 
 class LightSoftware(Software):

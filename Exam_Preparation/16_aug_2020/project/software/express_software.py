@@ -1,4 +1,4 @@
-from project.system import Software
+from project.software.software import Software
 
 
 class ExpressSoftware(Software):
@@ -7,5 +7,5 @@ class ExpressSoftware(Software):
 
     def __init__(self, name, capacity_consumption, memory_consumption):
         memory_consumption = self.MEMORY_CONSUMPTION_COEFF * memory_consumption
-        super().__init__(name, capacity_consumption, memory_consumption)
+        super().__init__(name,self.TYPE, capacity_consumption, memory_consumption)
 
