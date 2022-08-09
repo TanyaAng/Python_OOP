@@ -12,8 +12,4 @@ class AloneYoung(Room):
         self.appliances = self.generate_appliances(*self.appliances_type)
         self.calculate_expenses(self.appliances)
 
-    # def calculate_expenses(self):
-    #     result = 0
-    #     for item in self.appliances:
-    #         result += item.get_monthly_expense()
-    #     self.expenses = result
+

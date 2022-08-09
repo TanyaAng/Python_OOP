@@ -16,10 +16,4 @@ class YoungCoupleWithChildren(Room):
         self.appliances = self.generate_appliances(*self.appliances_type)
         self.calculate_expenses(self.appliances, self.children)
 
-    # def calculate_expenses(self):
-    #     result = 0
-    #     for child in self.children:
-    #         result += child.get_monthly_expense()
-    #     for item in self.appliances:
-    #         result += self.members_count * item.get_monthly_expense()
-    #     self.expenses = result
+
